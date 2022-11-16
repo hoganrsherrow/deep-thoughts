@@ -7,7 +7,9 @@ const { ApolloServer } = require('apollo-server-express');
 // import typeDefs and resolvers
 const { typeDefs, resolvers } = require('./schemas');
 
-// connect to database
+const { authMiddleWare } = require('./utils/auth');
+
+// connect to database through Mongoose
 const db = require('./config/connection');
 
 // establish PORT
@@ -16,7 +18,8 @@ const PORT = process.env.PORT || 3001;
 // create a new Apollo server and pass in schema data
 const server = new ApolloServer({
   typeDefs,
-  resolvers
+  resolvers,
+  context: authMiddleWare
 });
 
 const app = express();
@@ -44,9 +47,3 @@ const startApolloServer = async (typeDefs, resolvers) => {
 
 // Call the async function to start the server
 startApolloServer(typeDefs, resolvers);
-
-// db.once('open', () => {
-//   app.listen(PORT, () => {
-//     console.log(`API server running on port ${PORT}!`);
-//   });
-// });
