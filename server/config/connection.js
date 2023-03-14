@@ -1,6 +1,7 @@
 const mongoose = require('mongoose');
 
-mongoose.connect(process.env.MONGODB_URI || 'mongodb://localhost/deep-thoughts', {
+// changed localhost since mongod does not bind to IPv6 addresses.
+mongoose.connect(process.env.MONGODB_URI || 'mongodb://0.0.0.0/deep-thoughts', {
   useNewUrlParser: true,
   useUnifiedTopology: true,
   useCreateIndex: true,
